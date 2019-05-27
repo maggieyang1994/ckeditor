@@ -45,6 +45,9 @@ const devWebpackConfig = merge(baseWebpackConfig, {
     }
   },
   plugins: [
+    new webpack.ProvidePlugin({
+      ClassicEditor: path.resolve(__dirname, "../static/ckeditor.js"),
+    }),
     new webpack.DefinePlugin({
       'process.env': require('../config/dev.env')
     }),
