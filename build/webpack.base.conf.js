@@ -7,6 +7,7 @@ const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
 function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
+const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
 
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
@@ -31,6 +32,12 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
+  plugins: [
+    new CKEditorWebpackPlugin( {
+      // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
+      language: 'en'
+  } )
+  ],
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -102,6 +109,14 @@ module.exports = {
               },
               minify: true
             })
+          }
+        ]
+      },
+      {
+        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
+        use: [
+          {
+            loader: 'raw-loader'
           }
         ]
       }

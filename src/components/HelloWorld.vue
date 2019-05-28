@@ -1,35 +1,46 @@
 <template>
-    <div id="ckEditor">
-        
+    <div id="app">
+        <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
     </div>
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
-import Essentials from '@ckeditor/ckeditor5-essentials/src/essentials';
-import Paragraph from '@ckeditor/ckeditor5-paragraph/src/paragraph';
-import Bold from '@ckeditor/ckeditor5-basic-styles/src/bold';
-import Italic from '@ckeditor/ckeditor5-basic-styles/src/italic';
+    // ⚠️ NOTE: We don't use @ckeditor/ckeditor5-build-classic any more!
+    // Since we're building CKEditor from source, we use the source version of ClassicEditor.
+    import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 
-export default {
-  name: "app",
-  data() {
-    return {};
-  },
-  mounted() {
-    ClassicEditor.create(document.getElementById("ckEditor"), {
-      plugins: [Essentials, Paragraph, Bold, Italic],
-      toolbar: ["bold", "italic"]
-    })
-      .then(editor => {
-        console.log(editor);
-      })
-      .catch(e => {
-        console.log(e);
-      });
-  }
-};
+    import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials';
+    import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold';
+    import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic';
+    import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
+    import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
+    export default {
+        name: 'app',
+        data() {
+            return {
+                editor: ClassicEditor,
+                editorData: '<p>Content of the editor.</p>',
+                editorConfig: {
+                    plugins: [
+                        EssentialsPlugin,
+                        BoldPlugin,
+                        ItalicPlugin,
+                        LinkPlugin,
+                        ParagraphPlugin
+                    ],
+
+                    toolbar: {
+                        items: [
+                            'bold',
+                            'italic',
+                            'link',
+                            'undo',
+                            'redo'
+                        ]
+                    }
+                }
+            };
+        }
+    };
 </script>
-
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-
