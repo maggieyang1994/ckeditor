@@ -1,38 +1,46 @@
 <template>
   <div id="ckEditor">
-    hello
+   <ckeditor :editor="editor" v-model="editorData" :config="editorConfig"></ckeditor>
   </div>
 </template>
 
 <script>
-export default {
-  name: "HelloWorld",
-  data() {
-    return {
-      msg: "Welcome to Your Vue.js App"
-    };
-  },
-  mounted() {
-    ClassicEditor.create(document.getElementById("ckEditor"));
-  }
-};
-</script>
+    // ⚠️ NOTE: We don't use @ckeditor/ckeditor5-build-classic any more!
+    // Since we're building CKEditor from source, we use the source version of ClassicEditor.
+    import ClassicEditor from '@ckeditor/ckeditor5-editor-classic/src/classiceditor';
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped>
-h1,
-h2 {
-  font-weight: normal;
-}
-ul {
-  list-style-type: none;
-  padding: 0;
-}
-li {
-  display: inline-block;
-  margin: 0 10px;
-}
-a {
-  color: #42b983;
-}
-</style>
+    import EssentialsPlugin from '@ckeditor/ckeditor5-essentials/src/essentials';
+    import BoldPlugin from '@ckeditor/ckeditor5-basic-styles/src/bold';
+    import ItalicPlugin from '@ckeditor/ckeditor5-basic-styles/src/italic';
+    // import LinkPlugin from '@ckeditor/ckeditor5-link/src/link';
+    import ParagraphPlugin from '@ckeditor/ckeditor5-paragraph/src/paragraph';
+
+    export default {
+        name: 'app',
+        data() {
+            return {
+                editor: ClassicEditor,
+                editorData: '<p>Content of the editor.</p>',
+                editorConfig: {
+                    plugins: [
+                        EssentialsPlugin,
+                        BoldPlugin,
+                        ItalicPlugin,
+                        // LinkPlugin,
+                        ParagraphPlugin
+                    ],
+
+                    toolbar: {
+                        items: [
+                            'bold',
+                            'italic',
+                            'link',
+                            'undo',
+                            'redo'
+                        ]
+                    }
+                }
+            };
+        }
+    };
+</script>
