@@ -14,8 +14,19 @@
     "build": "node build/build.js"
   },
   "dependencies": {
+    "@ckeditor/ckeditor5-basic-styles": "^11.1.0",
+    "@ckeditor/ckeditor5-dev-utils": "^12.0.1",
+    "@ckeditor/ckeditor5-editor-classic": "^12.1.0",
+    "@ckeditor/ckeditor5-essentials": "^11.0.1",
+    "@ckeditor/ckeditor5-paragraph": "^11.0.1",
+    "@ckeditor/ckeditor5-theme-lark": "^13.0.1",
+    "postcss-loader": "^2.1.6",
+    "raw-loader": "^2.0.0",
+    "style-loader": "^0.23.1",
     "vue": "^2.5.2",
-    "vue-router": "^3.0.1"
+    "vue-router": "^3.0.1",
+    "webpack": "^4.32.2",
+    "webpack-cli": "^3.3.2"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",

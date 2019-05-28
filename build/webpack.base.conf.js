@@ -3,8 +3,8 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-
-function resolve (dir) {
+const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
+function resolve(dir) {
   return path.join(__dirname, '..', dir)
 }
 
@@ -74,6 +74,36 @@ module.exports = {
           limit: 10000,
           name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
         }
+      },
+      {
+        // Or /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/ if you want to limit this loader
+        // to CKEditor 5 icons only.
+        test: /\.svg$/,
+
+        use: ['raw-loader']
+      },
+      {
+        // Or /ckeditor5-[^/]+\/theme\/[^/]+\.css$/ if you want to limit this loader
+        // to CKEditor 5 theme only.
+        test: /\.css$/,
+
+        use: [
+          {
+            loader: 'style-loader',
+            options: {
+              singleton: true
+            }
+          },
+          {
+            loader: 'postcss-loader',
+            options: styles.getPostCssConfig({
+              themeImporter: {
+                themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+              },
+              minify: true
+            })
+          }
+        ]
       }
     ]
   },
