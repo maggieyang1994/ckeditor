@@ -5,13 +5,11 @@
 </template>
 
 <script>
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic'
-
 export default {
   name: 'app',
   data () {
     return {
-      editor: ClassicEditor,
+      editor: window.ClassicEditor,
       editorData: '<p>Content of the editor.</p>',
       editorConfig: {
         toolbar: {
