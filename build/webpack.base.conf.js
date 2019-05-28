@@ -3,11 +3,12 @@ const path = require('path')
 const utils = require('./utils')
 const config = require('../config')
 const vueLoaderConfig = require('./vue-loader.conf')
-const { styles } = require( '@ckeditor/ckeditor5-dev-utils' );
-function resolve(dir) {
+const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
+const { styles } = require('@ckeditor/ckeditor5-dev-utils');
+
+function resolve (dir) {
   return path.join(__dirname, '..', dir)
 }
-const CKEditorWebpackPlugin = require('@ckeditor/ckeditor5-dev-webpack-plugin');
 
 const createLintingRule = () => ({
   test: /\.(js|vue)$/,
@@ -32,12 +33,6 @@ module.exports = {
       ? config.build.assetsPublicPath
       : config.dev.assetsPublicPath
   },
-  plugins: [
-    new CKEditorWebpackPlugin( {
-      // See https://ckeditor.com/docs/ckeditor5/latest/features/ui-language.html
-      language: 'en'
-  } )
-  ],
   resolve: {
     extensions: ['.js', '.vue', '.json'],
     alias: {
@@ -45,6 +40,11 @@ module.exports = {
       '@': resolve('src'),
     }
   },
+  plugins: [
+    new CKEditorWebpackPlugin( {
+        language: 'en'
+    } )
+],  
   module: {
     rules: [
       ...(config.dev.useEslint ? [createLintingRule()] : []),
@@ -83,43 +83,29 @@ module.exports = {
         }
       },
       {
-        // Or /ckeditor5-[^/]+\/theme\/icons\/[^/]+\.svg$/ if you want to limit this loader
-        // to CKEditor 5 icons only.
         test: /\.svg$/,
-
-        use: ['raw-loader']
-      },
-      {
-        // Or /ckeditor5-[^/]+\/theme\/[^/]+\.css$/ if you want to limit this loader
-        // to CKEditor 5 theme only.
+        use: [ 'raw-loader' ]
+    },
+    {
         test: /\.css$/,
-
         use: [
-          {
-            loader: 'style-loader',
-            options: {
-              singleton: true
-            }
-          },
-          {
-            loader: 'postcss-loader',
-            options: styles.getPostCssConfig({
-              themeImporter: {
-                themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
-              },
-              minify: true
-            })
-          }
+            {
+                loader: 'style-loader',
+                options: {
+                    singleton: true
+                }
+            },
+            {
+              loader: 'postcss-loader',
+              options: styles.getPostCssConfig( {
+                  themeImporter: {
+                      themePath: require.resolve('@ckeditor/ckeditor5-theme-lark')
+                  },
+                  minify: true
+              } )
+            },
         ]
-      },
-      {
-        test: /ckeditor5-[^/\\]+[/\\]theme[/\\]icons[/\\][^/\\]+\.svg$/,
-        use: [
-          {
-            loader: 'raw-loader'
-          }
-        ]
-      }
+    }
     ]
   },
   node: {
